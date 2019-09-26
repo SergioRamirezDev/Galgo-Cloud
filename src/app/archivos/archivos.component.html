@@ -1,0 +1,34 @@
+<mat-list>
+  <div>
+    <h3 mat-subheader>Folders</h3>
+  </div>
+</mat-list>
+<div class="row ml-0 mr-0">
+  <div cdkDropList class="col-sm-6 col-md-4 col-lg-3 col-xl-2 p-2" style="border: 2px solid transparent;"
+    *ngFor="let folder of data.folders;let i = index;">
+    <mat-card id="folder-{{i}}" (cdkDragStarted)="onStart(card)" #card="cdkDrag" (cdkDragMoved)="onMove($event)"
+      (cdkDragEnded)="onDrag(card)" cdkDrag>
+      <mat-card-content class="d-flex" style="align-items: center;">
+        <mat-icon style="color:grey;">{{folder.share ? "folder_shared" : "folder"}}</mat-icon>
+        <span class="ml-2">{{folder.name}}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<mat-list>
+  <div>
+    <h3 mat-subheader>Files</h3>
+  </div>
+</mat-list>
+<div class="row ml-0 mr-0">
+  <div cdkDropList class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2" *ngFor="let file of data.files">
+    <mat-card id="file-{{i}}" (cdkDragStarted)="onStart(card,model)" #card="cdkDrag" #model (cdkDragMoved)="onMove($event)"
+    (cdkDragEnded)="onDrag(card)" cdkDrag>
+      <img mat-card-image src="./assets/noimage.png">
+      <mat-card-content class="d-flex" style="align-items: center;">
+        <mat-icon style="color:grey;">{{file.share ? "insert_drive_file" : "share"}}</mat-icon>
+        <span class="ml-2">{{file.name}}</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

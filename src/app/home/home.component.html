@@ -1,0 +1,76 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer [opened]="true" class="example-sidenav" mode="side">
+      <img class="logo" src="./assets/logo.png">
+      <mat-list role="list">
+        <a routerLink="/app">
+          <mat-list-item class="link" role="listitem">
+            Pagina Principal
+          </mat-list-item>
+        </a>
+        <a routerLink="/app/archivos">
+          <mat-list-item class="link" role="listitem">
+            Archivos
+          </mat-list-item>
+        </a>
+        <a routerLink="/app/archivos-compartidos">
+          <mat-list-item class="link" role="listitem">
+            Compartidos
+          </mat-list-item>
+        </a>
+        <a routerLink="/app/solicitudes-de-archivos">
+          <mat-list-item class="link" role="listitem">
+            Solicitudes de Archivos
+          </mat-list-item>
+        </a>
+        <a routerLink="/app/archivos-eliminados">
+          <mat-list-item class="link" role="listitem">
+            Archivos Eliminados
+          </mat-list-item>
+        </a>
+        <a routerLink="/app/usuarios">
+          <mat-list-item class="link" role="listitem">
+            Usuarios
+          </mat-list-item>
+        </a>
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>Herramientas</h3>
+        <mat-list-item class="link" role="listitem">
+          <button (click)="openUploadFileDialog()" color="primary" mat-raised-button>
+            <mat-icon>file_upload</mat-icon> Cargar Archivos
+          </button>
+        </mat-list-item>
+        <a (click)="crearFolder()">
+          <mat-list-item class="link txt-blue" role="listitem">
+            <mat-icon class="icon">create_new_folder</mat-icon> Crear Carpeta
+          </mat-list-item>
+        </a>
+        <a>
+          <mat-list-item class="link txt-blue" role="listitem">
+            <mat-icon class="icon">folder_shared</mat-icon> Nueva Carpeta Compartida
+          </mat-list-item>
+        </a>
+      </mat-list>
+    </mat-drawer>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="drawer.toggle();">
+        <mat-icon>
+          {{!drawer.opened ? "menu" : "close"}}
+        </mat-icon>
+      </button>
+      Cloud
+      <span class="spacer"></span>
+      <mat-search-bar class="icon"></mat-search-bar>
+      <button class="icon" mat-icon-button>
+        <mat-icon>notifications</mat-icon>
+      </button>
+      <button class="icon" mat-icon-button>
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button class="icon" mat-icon-button>
+        <mat-icon>help</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="example-sidenav-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-container>

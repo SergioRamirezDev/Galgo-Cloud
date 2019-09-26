@@ -1,0 +1,34 @@
+<div class="cover">
+    <form class="content fondo" [formGroup]="form">
+      <mat-card class="example-card fondocard">
+        <div class="overcard" [hidden]="!loading">
+          <mat-spinner class="m-auto"></mat-spinner>
+        </div>
+        <mat-card-header class="mt-5">
+          <img class="logo" src="./assets/logo.png" alt="Nice green circle" />
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row mt-3 mb-5">
+            <div class="col-sm-12">
+              <mat-form-field>
+                <input formControlName="email" matInput placeholder="Email" type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12">
+              <mat-form-field>
+                <input formControlName="password" matInput placeholder="New password" type="password">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12">
+              <mat-form-field>
+                <input formControlName="password_confirmation" matInput placeholder="Password" type="password">
+              </mat-form-field>
+            </div>
+            <div class="col-sm-12 mt-3">
+              <button color="accent" mat-raised-button (click)="post()">Reset Password</button>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+  </div>
