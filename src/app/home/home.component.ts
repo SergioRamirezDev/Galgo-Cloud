@@ -3,7 +3,7 @@ import { ArchivosComponent } from '../archivos/archivos.component';
 import { AppService } from '../app.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { FileUploader } from 'ng2-file-upload';
-
+import { RouterLinkActive } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',

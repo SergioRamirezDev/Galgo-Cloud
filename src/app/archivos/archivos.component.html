@@ -11,8 +11,43 @@
       <mat-card-content class="d-flex" style="align-items: center;">
         <mat-icon style="color:grey;">{{folder.share ? "folder_shared" : "folder"}}</mat-icon>
         <span class="ml-2">{{folder.name}}</span>
+        <div class="spacer"></div>
+        <button [matMenuTriggerFor]="menu" mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
       </mat-card-content>
     </mat-card>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>share</mat-icon>Compartir
+      </button>
+      <button mat-menu-item>
+        <mat-icon>link</mat-icon>Obtener enlace para compartir
+      </button>
+      <button mat-menu-item>
+        <mat-icon>keyboard_return</mat-icon>Mover a
+      </button>
+      <button mat-menu-item>
+        <mat-icon>star_border</mat-icon>Anadir a destacados
+      </button>
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>Cambiar Nombre
+      </button>
+      <button mat-menu-item>
+        <mat-icon>color_lens</mat-icon>Cambiar Color
+      </button>
+      <button mat-menu-item>
+        <mat-icon>info</mat-icon> Ver Detalles
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>file_download</mat-icon>Descargar
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>Eliminar
+      </button>
+    </mat-menu>
   </div>
 </div>
 <mat-list>
@@ -22,13 +57,48 @@
 </mat-list>
 <div class="row ml-0 mr-0">
   <div cdkDropList class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2" *ngFor="let file of data.files">
-    <mat-card id="file-{{i}}" (cdkDragStarted)="onStart(card,model)" #card="cdkDrag" #model (cdkDragMoved)="onMove($event)"
-    (cdkDragEnded)="onDrag(card)" cdkDrag>
+    <mat-card id="file-{{i}}" (cdkDragStarted)="onStart(card,model)" #card="cdkDrag" #model
+      (cdkDragMoved)="onMove($event)" (cdkDragEnded)="onDrag(card)" cdkDrag>
       <img mat-card-image src="./assets/noimage.png">
       <mat-card-content class="d-flex" style="align-items: center;">
         <mat-icon style="color:grey;">{{file.share ? "insert_drive_file" : "share"}}</mat-icon>
         <span class="ml-2">{{file.name}}</span>
+        <div class="spacer"></div>
+        <button [matMenuTriggerFor]="menu" mat-icon-button>
+          <mat-icon>more_vert</mat-icon>
+        </button>
       </mat-card-content>
     </mat-card>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>share</mat-icon>Compartir
+      </button>
+      <button mat-menu-item>
+        <mat-icon>link</mat-icon>Obtener enlace para compartir
+      </button>
+      <button mat-menu-item>
+        <mat-icon>keyboard_return</mat-icon>Mover a
+      </button>
+      <button mat-menu-item>
+        <mat-icon>star_border</mat-icon>Anadir a destacados
+      </button>
+      <button mat-menu-item>
+        <mat-icon>edit</mat-icon>Cambiar Nombre
+      </button>
+      <button mat-menu-item>
+        <mat-icon>color_lens</mat-icon>Cambiar Color
+      </button>
+      <button mat-menu-item>
+        <mat-icon>info</mat-icon> Ver Detalles
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>file_download</mat-icon>Descargar
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item>
+        <mat-icon>delete</mat-icon>Eliminar
+      </button>
+    </mat-menu>
   </div>
 </div>

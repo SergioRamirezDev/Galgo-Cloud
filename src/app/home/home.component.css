@@ -15,9 +15,10 @@
     margin: auto;
     width: 140px;
   }
-  .txt-blue{
-    color: #1976d2;
+  .txt-blue,.txt-blue .link{
+    color: #1976d2 !important;
   }
+
   .example-container {
     width: 100%;
     height: 100%;

@@ -31,7 +31,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { AyudaComponent } from './ayuda/ayuda.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule, MatMenuModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +72,8 @@ import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule } from '@a
     MatProgressSpinnerModule,
     DragDropModule,
     MatDialogModule,
-    FileUploadModule
+    FileUploadModule,
+    MatMenuModule
   ],
   providers: [AuthGuard, AppService, { provide: LocationStrategy, useClass: HashLocationStrategy }, {
     provide: HTTP_INTERCEPTORS,
