@@ -1,3 +1,35 @@
-<p>
-  login works!
-</p>
+
+    <div class="cover">
+      <form class="content fondo" [formGroup]="form">
+        <mat-card class="example-card fondocard">
+          <div class="overcard" [hidden]="!loading">
+            <mat-spinner class="m-auto"></mat-spinner>
+          </div>
+          <mat-card-header class="mt-5">
+              
+            <!-- <img class="logo" src="http://64.156.14.123/assets/logo.png" alt="Nice green circle" /> -->
+            <img class="logo" src="./assets/logo.png" alt="Nice green circle" />
+          </mat-card-header>
+          <mat-card-content>
+            <div class="row mt-3 mb-5">
+              <div class="col-sm-12">
+                <mat-form-field>
+                  <input formControlName="email" matInput placeholder="Usuario" type="text">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-12 mt-3">
+                <mat-form-field>
+                  <input formControlName="password" matInput placeholder="Contraseña" type="password">
+                </mat-form-field>
+              </div>
+              <div class="col-sm-12 mt-3">
+                <button [disabled]="!form.valid" color="accent" mat-raised-button (click)="login()">Login</button>
+              </div>
+              <div class="col-sm-12 text-center">
+                <span class="m-auto">V. 0.0.1</span>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </form>
+    </div>

@@ -63,12 +63,23 @@
     <button class="icon" mat-icon-button>
       <mat-icon>notifications</mat-icon>
     </button>
-    <button class="icon" mat-icon-button>
-      <mat-icon>settings</mat-icon>
+    <span class="mr-2">{{alias}}</span>
+    <img mat-card-avatar class="rounded-circle icon" style="max-height: 40px;" [src]="photo" />
+    <button mat-icon-button [matMenuTriggerFor]="moreMenu">
+      <mat-icon>more_vert</mat-icon>
     </button>
-    <button class="icon" mat-icon-button>
-      <mat-icon>help</mat-icon>
-    </button>
+    <mat-menu #moreMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon> Configuracion
+      </button>
+      <button mat-menu-item>
+        <mat-icon>help</mat-icon> Ayuda
+      </button>
+      <mat-divider></mat-divider>
+      <button (click)="logout()" mat-menu-item>
+        Cerrar Sesion
+      </button>
+    </mat-menu>
   </mat-toolbar>
   <div class="example-sidenav-content">
     <router-outlet></router-outlet>

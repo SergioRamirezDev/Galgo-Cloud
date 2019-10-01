@@ -32,6 +32,8 @@ import { ConfiguracionComponent } from './configuracion/configuracion.component'
 import { AyudaComponent } from './ayuda/ayuda.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule, MatMenuModule } from '@angular/material';
+import { AuthService } from './auth.service';
+import { GraphQLModule } from './graphql.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,9 +75,10 @@ import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule, MatMenuMo
     DragDropModule,
     MatDialogModule,
     FileUploadModule,
-    MatMenuModule
+    MatMenuModule,
+    GraphQLModule
   ],
-  providers: [AuthGuard, AppService, { provide: LocationStrategy, useClass: HashLocationStrategy }, {
+  providers: [AuthGuard,AuthService, AppService, { provide: LocationStrategy, useClass: HashLocationStrategy }, {
     provide: HTTP_INTERCEPTORS,
     useClass: AppService,
     multi: true,

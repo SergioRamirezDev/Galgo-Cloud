@@ -3,7 +3,8 @@ import { ArchivosComponent } from '../archivos/archivos.component';
 import { AppService } from '../app.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { FileUploader } from 'ng2-file-upload';
-import { RouterLinkActive } from '@angular/router';
+import { RouterLinkActive, Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -11,7 +12,17 @@ import { RouterLinkActive } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   carpeta: ArchivosComponent
-  constructor(public http: AppService, public dialog: MatDialog) { }
+  photo: string
+  alias: string
+  constructor(public http: AppService, public dialog: MatDialog, private authService: AuthService, private router: Router) {
+    this.photo = localStorage.getItem("photo")
+    this.alias = localStorage.getItem("username")
+  }
+
+  logout() {
+    this.authService.logout()
+    this.router.navigateByUrl("/login")
+  }
 
   crearFolder() {
     let data = {}
@@ -54,11 +65,11 @@ export class HomeComponent implements OnInit {
   `]
 })
 export class UploadFileDialog {
-  public uploader:FileUploader = new FileUploader({url: ""});
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
+  public uploader: FileUploader = new FileUploader({ url: "" });
+  public hasBaseDropZoneOver: boolean = false;
+  public hasAnotherDropZoneOver: boolean = false;
 
-  public fileOverBase(e:any):void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
   constructor(

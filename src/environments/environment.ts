@@ -1,11 +1,26 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
+import gql from 'graphql-tag';
 export const environment = {
-  BASE_URL: 'http://routemytours.com:81',
+  BASE_URL: 'localhost:5000',
   API_URL: 'api/v1',
-  production: false
+  login: gql`mutation  
+  login($username : String!, $password : String!){
+    login(username : $username, password : $password){
+      id
+      username
+      firstname
+      lastname
+      photo
+      token
+      gender
+      position
+      position_id
+    }
+}
+`,
+  production: false,
 };
 
 /*
