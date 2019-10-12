@@ -5,18 +5,26 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { FileUploader } from 'ng2-file-upload';
 import { RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { Apollo } from 'apollo-angular';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  carpeta: ArchivosComponent
   photo: string
   alias: string
-  constructor(public http: AppService, public dialog: MatDialog, private authService: AuthService, private router: Router) {
+  loading: boolean = false
+  form: FormGroup
+  constructor(@Inject(FormBuilder) fb: FormBuilder, public http: AppService, public dialog: MatDialog, private authService: AuthService, private router: Router, private apollo: Apollo) {
     this.photo = localStorage.getItem("photo")
     this.alias = localStorage.getItem("username")
+    this.form = fb.group({
+      name: new FormControl({ value: '', disabled: false }, Validators.required),
+      folder_id: new FormControl({ value: '', disabled: false }, Validators.required),
+    })
   }
 
   logout() {
@@ -25,10 +33,29 @@ export class HomeComponent implements OnInit {
   }
 
   crearFolder() {
-    let data = {}
-    let a = prompt("Escribe el nombre del archivo");
-    data = { type: "folder", name: a, share: false }
-    this.http.setForeignEvent("create", data)
+    let name = prompt("Escribe el nombre del archivo")
+    this.loading = true
+    this.apollo.mutate({
+      mutation: environment.createfolder,
+      variables: {
+        name: name,
+        folder_id: localStorage.getItem("current_folder")
+      },
+      errorPolicy: "all"
+    }).subscribe((helper: any) => {
+      this.loading = false
+      if (helper.errors) {
+        helper.errors.map(error => {
+          this.http.presentToast(error.message)
+        })
+      } else {
+        this.http.presentToast("Carpeta Creada.")
+        this.http.setForeignEvent("create", helper.data.createFolder)
+      }
+    }, error => {
+      this.http.presentToast(error)
+      this.loading = false
+    })
   }
 
   openUploadFileDialog(): void {
@@ -44,6 +71,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
   }
+
 
 }
 

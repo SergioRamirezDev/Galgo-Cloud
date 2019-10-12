@@ -17,7 +17,6 @@ export class AppService implements HttpInterceptor {
     mapId: any = {};
     selectedTypeOfVehicle: any = {};
     createSubscribe = new Subject<any>();
-
     constructor(private http: HttpClient, private router: Router, public snackBar: MatSnackBar) { }
 
     getForeignEvent(): Observable<any> {
@@ -98,9 +97,7 @@ export class AppService implements HttpInterceptor {
         this.request = this.request - 1;
         this.requestSub.next(this.request)
         if (data.msg && this.request == 0) {
-            this.snackBar.open(data.msg, "Undo", {
-                duration: 2000
-            })
+            this.presentToast(data.msg)
         }
         if (data.message == "You pass invalid token") {
             this.router.navigate(['/login'])
@@ -117,6 +114,12 @@ export class AppService implements HttpInterceptor {
             formdata.append(x, params[x])
         });
         return formdata;
+    }
+
+    public presentToast(msg: string) {
+        this.snackBar.open(msg, "Undo", {
+            duration: 3000
+        });
     }
 
     public RequestLoading = () => {

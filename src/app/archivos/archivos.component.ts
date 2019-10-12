@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { AppService } from '../app.service';
 import { Subscription, Observable } from 'rxjs';
 import { DragRef, CdkDragMove, CdkDrag, DropListRef } from '@angular/cdk/drag-drop';
+import { environment } from 'src/environments/environment';
+import { Apollo } from 'apollo-angular';
 
 @Component({
   selector: 'app-archivos',
@@ -9,66 +11,22 @@ import { DragRef, CdkDragMove, CdkDrag, DropListRef } from '@angular/cdk/drag-dr
   styleUrls: ['./archivos.component.css']
 })
 export class ArchivosComponent implements OnInit, OnDestroy {
-  data: any = {
-    folders: [{
-      type: "folder",
-      name: "Test",
-      share: true,
-      pos: { x: 10, y: 10 }
-    },
-    {
-      type: "folder",
-      name: "Test 2",
-      share: false,
-      pos: { x: 10, y: 10 }
-    },
-    {
-      type: "folder",
-      name: "Test 3",
-      share: false,
-      pos: { x: 10, y: 10 }
-    }],
-    files: [{
-      type: "file",
-      name: "file",
-      share: false,
-      pos: { x: 10, y: 10 }
-    },
-    {
-      type: "file",
-      name: "file 2",
-      share: false,
-      pos: { x: 10, y: 10 }
-    },
-    {
-      type: "file",
-      name: "file 3",
-      share: false,
-      pos: { x: 10, y: 10 }
-    },
-    {
-      type: "file",
-      name: "file 4",
-      share: true,
-      pos: { x: 10, y: 10 }
-    }]
-  }
+  data: any = {}
   move: boolean = false
   subEvent: Subscription
   dropStartComponent: HTMLElement
   dropTouchComponent: HTMLElement
   dropLastComponent: HTMLElement
-  constructor(public http: AppService) {
+  root: any = {}
+  loading: boolean = false
+  constructor(public http: AppService, private apollo: Apollo) {
+    let root = localStorage.getItem("root");
+    if (root) { this.root = JSON.parse(root) }
     this.subEvent = this.http.getForeignEvent().subscribe(res => {
       if (res.type = "create") {
         this.data.folders.push(res.data)
-        //localStorage.setItem("data", JSON.stringify(this.data))
       }
     })
-    /*let datos = localStorage.getItem("data")
-    if (datos) {
-      this.data = JSON.parse(datos)
-    }*/
   }
 
   onStart(event: CdkDrag) {
@@ -100,11 +58,38 @@ export class ArchivosComponent implements OnInit, OnDestroy {
     }
   }
 
+  getFolderFiles(root: string = this.root.id) {
+    this.root.id = root
+    localStorage.setItem("current_folder",this.root.id)
+    console.log("Root",this.root.id)
+    this.loading = true
+    this.apollo.query({
+      query: environment.datainfolder,
+      variables: {
+        folder_id: root
+      },
+      errorPolicy: "all"
+    }).subscribe((helper: any) => {
+      this.loading = false
+      if (helper.errors) {
+        helper.errors.map(error => {
+          this.http.presentToast(error.message)
+        })
+      } else if (helper.data.dataInFolder) {
+        this.data = helper.data.dataInFolder
+      }
+    }, error => {
+      this.http.presentToast(error)
+      this.loading = false
+    })
+  }
+
   log(ev: any) {
     //console.log(ev)
   }
 
   ngOnInit() {
+    this.getFolderFiles()
   }
 
   ngOnDestroy() {

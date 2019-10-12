@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       this.loading = false
       if (helper.errors) {
         helper.errors.map(error => {
-          this.presentToast(error.message)
+          this.http.presentToast(error.message)
         })
       } else if (helper.data.login) {
         if (this.authService.login(helper.data.login)) {
@@ -45,15 +45,9 @@ export class LoginComponent implements OnInit {
         }
       }
     }, error => {
-      this.presentToast(error)
+      this.http.presentToast(error)
       this.loading = false
     })
-  }
-
-  presentToast(msg: string) {
-    this.snackBar.open(msg, "Undo", {
-      duration: 3000
-    });
   }
 
   ngOnInit() {

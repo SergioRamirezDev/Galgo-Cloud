@@ -24,6 +24,9 @@ export class AuthService {
         localStorage.setItem("gender", auth.gender)
         localStorage.setItem("position", auth.position)
         localStorage.setItem("position_id", auth.position_id)
+        localStorage.setItem("root", JSON.stringify(auth.root))
+        localStorage.setItem("root_id", auth.root.id)
+        localStorage.setItem("current_folder", auth.root.id)
         return this.loggedIn
     }
 
@@ -43,4 +46,7 @@ export class AuthType {
     gender: string
     position: string
     position_id: string
+    root: {
+        id: string
+    }
 }

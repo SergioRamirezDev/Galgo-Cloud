@@ -17,9 +17,40 @@ export const environment = {
       gender
       position
       position_id
+      root{
+        id
+        name
+        root
+        color
+      }
     }
-}
-`,
+  }`,
+  createfolder: gql`mutation
+    createFolder($name : String!,$folder_id : String!){
+      createFolder(name:$name, folder_id : $folder_id){
+        id
+        name
+        description
+        path
+        color
+        created_at
+      }
+    }`,
+  datainfolder: gql`
+    query dataInFolder($folder_id : ID!){
+      dataInFolder(folder_id : $folder_id){
+        files{
+          id
+          name
+          path
+        },
+        folders{
+          id
+          name
+          path
+        }
+      }
+    }`,
   production: false,
 };
 
