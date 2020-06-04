@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   alias: string
   loading: boolean = false
   form: FormGroup
+  role : number
   constructor(@Inject(FormBuilder) fb: FormBuilder, public http: AppService, public dialog: MatDialog, private authService: AuthService, private router: Router, private apollo: Apollo) {
     this.photo = localStorage.getItem("photo")
     this.alias = localStorage.getItem("username")
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
       name: new FormControl({ value: '', disabled: false }, Validators.required),
       folder_id: new FormControl({ value: '', disabled: false }, Validators.required),
     })
+    this.role = Number(localStorage.getItem("position_id"))
   }
 
   logout() {
@@ -61,7 +63,10 @@ export class HomeComponent implements OnInit {
   openUploadFileDialog(): void {
     const dialogRef = this.dialog.open(UploadFileDialog, {
       width: '750px',
-      data: {}
+      data: {
+        folder_id : localStorage.getItem("current_folder"),
+        user_id : localStorage.getItem("id")
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -90,10 +95,10 @@ export class HomeComponent implements OnInit {
   .spacer {
     flex: 1 1 auto;
   }
-  `]
+  `],
 })
 export class UploadFileDialog {
-  public uploader: FileUploader = new FileUploader({ url: "" });
+  public uploader: FileUploader = new FileUploader({ url: "http://routemytours.com:4000/fileUpload" });
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
 
@@ -102,7 +107,12 @@ export class UploadFileDialog {
   }
   constructor(
     public dialogRef: MatDialogRef<UploadFileDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.uploader.onBuildItemForm = (item, form) => {
+        form.append("folder_id", data.folder_id);
+        form.append("user_id", data.user_id);
+      };
+     }
 
   onNoClick(): void {
     this.dialogRef.close();

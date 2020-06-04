@@ -17,7 +17,7 @@ import { ArchivosComponent } from './archivos/archivos.component';
 import { CompartidosComponent } from './compartidos/compartidos.component';
 import { SolicitudesComponent } from './solicitudes/solicitudes.component';
 import { EliminadosComponent } from './eliminados/eliminados.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
+import { UsuariosComponent, UserDialog } from './usuarios/usuarios.component';
 import { LoginComponent } from './login/login.component';
 import { ForgetComponent } from './forget/forget.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -31,9 +31,10 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
 import { AyudaComponent } from './ayuda/ayuda.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule, MatMenuModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatSnackBarModule, MatDialogModule, MatMenuModule, MatTableModule, MatSelectModule } from '@angular/material';
 import { AuthService } from './auth.service';
 import { GraphQLModule } from './graphql.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,10 +50,12 @@ import { GraphQLModule } from './graphql.module';
     PrincipalComponent,
     ConfiguracionComponent,
     AyudaComponent,
-    UploadFileDialog
+    UploadFileDialog,
+    UserDialog
   ],
   entryComponents: [
-    UploadFileDialog
+    UploadFileDialog,
+    UserDialog
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,9 @@ import { GraphQLModule } from './graphql.module';
     MatDialogModule,
     FileUploadModule,
     MatMenuModule,
-    GraphQLModule
+    GraphQLModule,
+    MatTableModule,
+    MatSelectModule
   ],
   providers: [AuthGuard,AuthService, AppService, { provide: LocationStrategy, useClass: HashLocationStrategy }, {
     provide: HTTP_INTERCEPTORS,

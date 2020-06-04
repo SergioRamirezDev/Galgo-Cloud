@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>{{data.id ? 'Edit' : 'Create'}} usuario</h1>
+<div mat-dialog-content class="form m-0" [formGroup]="form">
+    <mat-form-field class="full-width">
+        <input placeholder="Username" matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <input placeholder="Firstname" matInput formControlName="firstname">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <input placeholder="Lastname" matInput formControlName="lastname">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <input placeholder="Email" matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <input placeholder="Password" matInput formControlName="password">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+        <mat-label>Position</mat-label>
+        <mat-select formControlName="position_id">
+            <mat-option *ngFor="let position of positions" [value]="position.id">
+                {{position.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="form.value" [disabled]="!form.valid"
+        cdkFocusInitial>{{data.id ? 'Actualizar' : 'Crear'}}</button>
+</div>

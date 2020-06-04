@@ -11,17 +11,26 @@ import { Apollo } from 'apollo-angular';
   styleUrls: ['./archivos.component.css']
 })
 export class ArchivosComponent implements OnInit, OnDestroy {
-  data: any = {}
+  data: any = {
+    folders: [],
+    files: []
+  }
   move: boolean = false
   subEvent: Subscription
   dropStartComponent: HTMLElement
   dropTouchComponent: HTMLElement
   dropLastComponent: HTMLElement
   root: any = {}
+  root_id: string = ""
   loading: boolean = false
+  domain = "http://routemytours.com"
   constructor(public http: AppService, private apollo: Apollo) {
     let root = localStorage.getItem("root");
-    if (root) { this.root = JSON.parse(root) }
+    this.root_id = localStorage.getItem("root_id");
+    this.root.id = this.root_id
+    if (root) {
+      this.root = JSON.parse(root);
+    }
     this.subEvent = this.http.getForeignEvent().subscribe(res => {
       if (res.type = "create") {
         this.data.folders.push(res.data)
@@ -58,10 +67,36 @@ export class ArchivosComponent implements OnInit, OnDestroy {
     }
   }
 
+  refresh(){
+    this.getFolderFiles()
+  }
+
+  getFileLink(id : number) {
+    this.loading = true
+    this.apollo.query({
+      query: environment.donwloadfile,
+      variables: {
+        id: id
+      },
+      errorPolicy: "all"
+    }).subscribe((helper: any) => {
+      this.loading = false
+      if (helper.errors) {
+        helper.errors.map(error => {
+          this.http.presentToast(error.message)
+        })
+      } else if (helper.data.downloadfile) {
+        window.open(helper.data.downloadfile.link, "_blank"); 
+      }
+    }, error => {
+      this.http.presentToast(error)
+      this.loading = false
+    })
+  }
+
   getFolderFiles(root: string = this.root.id) {
     this.root.id = root
-    localStorage.setItem("current_folder",this.root.id)
-    console.log("Root",this.root.id)
+    localStorage.setItem("current_folder", root)
     this.loading = true
     this.apollo.query({
       query: environment.datainfolder,
@@ -70,6 +105,7 @@ export class ArchivosComponent implements OnInit, OnDestroy {
       },
       errorPolicy: "all"
     }).subscribe((helper: any) => {
+      console.log(helper)
       this.loading = false
       if (helper.errors) {
         helper.errors.map(error => {
@@ -88,11 +124,60 @@ export class ArchivosComponent implements OnInit, OnDestroy {
     //console.log(ev)
   }
 
+  deleteFile(id : number) {
+    this.loading = true
+    this.apollo.query({
+      query: environment.deletefile,
+      variables: {
+        file_id : id
+      },
+      errorPolicy: "all"
+    }).subscribe((helper: any) => {
+      this.loading = false
+      if (helper.errors) {
+        helper.errors.map(error => {
+          this.http.presentToast(error.message)
+        })
+      } else if (helper.data.deleteFile) {
+        this.http.presentToast(helper.data.deleteFile.msg)
+        this.refresh()
+      }
+    }, error => {
+      this.http.presentToast(error)
+      this.loading = false
+    })
+  }
+
+  deleteFolder(id : number) {
+    this.loading = true
+    this.apollo.query({
+      query: environment.deletefolder,
+      variables: {
+        folder_id: id
+      },
+      errorPolicy: "all"
+    }).subscribe((helper: any) => {
+      this.loading = false
+      if (helper.errors) {
+        helper.errors.map(error => {
+          this.http.presentToast(error.message)
+        })
+      } else if (helper.data.deleteFolder) {
+        this.http.presentToast(helper.data.deleteFolder.msg)
+        this.refresh()
+      }
+    }, error => {
+      this.http.presentToast(error)
+      this.loading = false
+    })
+  }
+
   ngOnInit() {
     this.getFolderFiles()
   }
 
   ngOnDestroy() {
+    localStorage.setItem("current_folder",this.root_id)
     this.subEvent.unsubscribe()
   }
 

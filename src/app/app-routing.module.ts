@@ -17,7 +17,7 @@ import { ForgetComponent } from './forget/forget.component';
 const routes: Routes = [
   {
     path: 'app', canActivate: [AuthGuard], component: HomeComponent, children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '', redirectTo: 'archivos', pathMatch: 'full' },
       { path: 'home', component: PrincipalComponent },
       { path: 'archivos', component: ArchivosComponent },
       { path: 'archivos-eliminados', component: EliminadosComponent },

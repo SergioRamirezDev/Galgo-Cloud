@@ -2,17 +2,17 @@
   <mat-drawer #drawer [opened]="true" class="example-sidenav" mode="side">
     <img class="logo" src="./assets/logo.png">
     <mat-list role="list">
-      <a routerLink="/app/home" routerLinkActive="txt-blue">
+      <!--<a routerLink="/app/home" routerLinkActive="txt-blue">
         <mat-list-item class="link" role="listitem">
           Pagina Principal
         </mat-list-item>
-      </a>
+      </a>-->
       <a routerLink="/app/archivos" routerLinkActive="txt-blue">
         <mat-list-item class="link" role="listitem">
           Archivos
         </mat-list-item>
       </a>
-      <a routerLink="/app/archivos-compartidos" routerLinkActive="txt-blue">
+      <!--<a routerLink="/app/archivos-compartidos" routerLinkActive="txt-blue">
         <mat-list-item class="link" role="listitem">
           Compartidos
         </mat-list-item>
@@ -26,8 +26,8 @@
         <mat-list-item class="link" role="listitem">
           Archivos Eliminados
         </mat-list-item>
-      </a>
-      <a routerLink="/app/usuarios" routerLinkActive="txt-blue">
+      </a>-->
+      <a *ngIf="role == 1" routerLink="/app/usuarios" routerLinkActive="txt-blue">
         <mat-list-item class="link" role="listitem">
           Usuarios
         </mat-list-item>
@@ -44,11 +44,11 @@
           <mat-icon class="icon">create_new_folder</mat-icon> Crear Carpeta
         </mat-list-item>
       </a>
-      <a>
+      <!--<a>
         <mat-list-item class="link txt-blue" role="listitem">
           <mat-icon class="icon">folder_shared</mat-icon> Nueva Carpeta Compartida
         </mat-list-item>
-      </a>
+      </a>-->
     </mat-list>
   </mat-drawer>
   <mat-toolbar color="primary">
@@ -59,22 +59,22 @@
     </button>
     Cloud
     <span class="spacer"></span>
-    <mat-search-bar class="icon"></mat-search-bar>
+    <!--<mat-search-bar class="icon"></mat-search-bar>
     <button class="icon" mat-icon-button>
       <mat-icon>notifications</mat-icon>
-    </button>
-    <span class="mr-2">{{alias}}</span>
+    </button>-->
+    <span class="mr-2 text-capitalize">{{alias}}</span>
     <img mat-card-avatar class="rounded-circle icon" style="max-height: 40px;" [src]="photo" />
     <button mat-icon-button [matMenuTriggerFor]="moreMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #moreMenu="matMenu">
-      <button mat-menu-item>
+      <!--<button mat-menu-item>
         <mat-icon>settings</mat-icon> Configuracion
       </button>
       <button mat-menu-item>
         <mat-icon>help</mat-icon> Ayuda
-      </button>
+      </button>-->
       <mat-divider></mat-divider>
       <button (click)="logout()" mat-menu-item>
         Cerrar Sesion

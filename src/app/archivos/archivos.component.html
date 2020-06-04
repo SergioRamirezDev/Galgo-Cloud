@@ -1,18 +1,27 @@
-<mat-list>
+<button mat-button color="primary" (click)="getFolderFiles(root_id)">
+  <mat-icon>home</mat-icon> Inicio
+</button>
+<button mat-button color="primary" (click)="refresh()">
+  <mat-icon>refresh</mat-icon> Refrescar
+</button>
+<mat-list *ngIf="root.name">
   <div>
-    <h2 class="text-uppercase"  mat-subheader>{{root.name}}</h2>
+    <h2 class="text-uppercase" mat-subheader>{{root.name}}</h2>
   </div>
 </mat-list>
-<mat-list>
+<div class="text-center" *ngIf="data.files.length == 0 && data.folders.length == 0">
+  No hay archivos o folders que mostrar
+</div>
+<mat-list *ngIf="data.folders.length > 0">
   <div>
     <h3 mat-subheader>Folders</h3>
   </div>
 </mat-list>
-<div class="row ml-0 mr-0">
+<div *ngIf="data.folders.length > 0" class="row ml-0 mr-0">
   <div cdkDropList class="col-sm-6 col-md-4 col-lg-3 col-xl-2 p-2" style="border: 2px solid transparent;"
     *ngFor="let folder of data.folders;let i = index;">
-    <mat-card (dblclick)="getFolderFiles(folder.id)" id="folder-{{i}}" (cdkDragStarted)="onStart(card)" #card="cdkDrag" (cdkDragMoved)="onMove($event)"
-      (cdkDragEnded)="onDrag(card)" cdkDrag>
+    <mat-card (dblclick)="getFolderFiles(folder.id)" id="folder-{{i}}" (cdkDragStarted)="onStart(card)" #card="cdkDrag"
+      (cdkDragMoved)="onMove($event)" (cdkDragEnded)="onDrag(card)" cdkDrag>
       <mat-card-content class="d-flex" style="align-items: center;">
         <mat-icon style="color:grey;">{{folder.share ? "folder_shared" : "folder"}}</mat-icon>
         <span class="ml-2">{{folder.name}}</span>
@@ -23,7 +32,7 @@
       </mat-card-content>
     </mat-card>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <!--<button mat-menu-item>
         <mat-icon>share</mat-icon>Compartir
       </button>
       <button mat-menu-item>
@@ -43,31 +52,33 @@
       </button>
       <button mat-menu-item>
         <mat-icon>info</mat-icon> Ver Detalles
-      </button>
+      </button>-->
       <mat-divider></mat-divider>
       <button mat-menu-item>
         <mat-icon>file_download</mat-icon>Descargar
       </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item>
+      <button (click)="deleteFolder(folder.id)" mat-menu-item>
         <mat-icon>delete</mat-icon>Eliminar
       </button>
+      <mat-divider></mat-divider>
+      <!--<button mat-menu-item>
+        <mat-icon>delete</mat-icon>Eliminar
+      </button>-->
     </mat-menu>
   </div>
 </div>
-<mat-list>
+<mat-list *ngIf="data.files.length > 0">
   <div>
     <h3 mat-subheader>Files</h3>
   </div>
 </mat-list>
-<div class="row ml-0 mr-0">
+<div *ngIf="data.files.length > 0" class="row ml-0 mr-0">
   <div cdkDropList class="col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-2" *ngFor="let file of data.files">
     <mat-card id="file-{{i}}" (cdkDragStarted)="onStart(card,model)" #card="cdkDrag" #model
       (cdkDragMoved)="onMove($event)" (cdkDragEnded)="onDrag(card)" cdkDrag>
-      <img mat-card-image src="./assets/noimage.png">
+      <img mat-card-image src="{{domain + file.preview_path}}">
       <mat-card-content class="d-flex" style="align-items: center;">
-        <mat-icon style="color:grey;">{{file.share ? "insert_drive_file" : "share"}}</mat-icon>
-        <span class="ml-2">{{file.name}}</span>
+        <span class="ml-2" style="font-size: 12px;">{{file.name}}</span>
         <div class="spacer"></div>
         <button [matMenuTriggerFor]="menu" mat-icon-button>
           <mat-icon>more_vert</mat-icon>
@@ -75,7 +86,7 @@
       </mat-card-content>
     </mat-card>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item>
+      <!--<button mat-menu-item>
         <mat-icon>share</mat-icon>Compartir
       </button>
       <button mat-menu-item>
@@ -95,15 +106,18 @@
       </button>
       <button mat-menu-item>
         <mat-icon>info</mat-icon> Ver Detalles
-      </button>
+      </button>-->
       <mat-divider></mat-divider>
-      <button mat-menu-item>
+      <button (click)="getFileLink(file.id)" mat-menu-item>
         <mat-icon>file_download</mat-icon>Descargar
       </button>
-      <mat-divider></mat-divider>
-      <button mat-menu-item>
+      <button (click)="deleteFile(file.id)" mat-menu-item>
         <mat-icon>delete</mat-icon>Eliminar
       </button>
+      <mat-divider></mat-divider>
+      <!--<button mat-menu-item>
+        <mat-icon>delete</mat-icon>Eliminar
+      </button>-->
     </mat-menu>
   </div>
 </div>
